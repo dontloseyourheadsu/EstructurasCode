@@ -6,15 +6,16 @@
 struct Student {
     char name[50];  // Student's name
     char address[100];  // Student's address
-    char curp[20];  // Student's CURP (a unique identity code)
+    char curp[20];  // Student's CURP
     float average;  // Student's average grade
-    struct Student* next;  // Pointer to the next student in the queue
+    struct Student *next;  // Pointer to the next student in the queue
 };
 
 // Function: createStudent
 // Description: Allocates memory for a new student and initializes its fields.
-struct Student* createStudent(char name[], char address[], char curp[], float average) {
-    struct Student* newStudent = (struct Student*)malloc(sizeof(struct Student));  // Allocate memory for a new student
+struct Student *createStudent(char name[], char address[], char curp[], float average) {
+    struct Student *newStudent = (struct Student *) malloc(
+            sizeof(struct Student));  // Allocate memory for a new student
     strcpy(newStudent->name, name);  // Copy name into the new student's name field
     strcpy(newStudent->address, address);  // Copy address into the new student's address field
     strcpy(newStudent->curp, curp);  // Copy CURP into the new student's CURP field
@@ -25,11 +26,11 @@ struct Student* createStudent(char name[], char address[], char curp[], float av
 
 // Function: enqueue
 // Description: Adds a new student to the end of the queue.
-void enqueue(struct Student** front, struct Student** rear, char name[], char address[], char curp[], float average) {
-    struct Student* newStudent = createStudent(name, address, curp, average);  // Create a new student
+void enqueue(struct Student **front, struct Student **rear, char name[], char address[], char curp[], float average) {
+    struct Student *newStudent = createStudent(name, address, curp, average);  // Create a new student
     if (*rear == NULL) {  // If the queue is empty
         *front = *rear = newStudent;  // Set front and rear to the new student
-        return;
+        return; // Return because the queue is empty
     }
     (*rear)->next = newStudent;  // Link the new student to the end of the queue
     *rear = newStudent;  // Update rear to point to the new student
@@ -37,12 +38,12 @@ void enqueue(struct Student** front, struct Student** rear, char name[], char ad
 
 // Function: dequeue
 // Description: Removes a student from the front of the queue.
-void dequeue(struct Student** front) {
+void dequeue(struct Student **front) {
     if (*front == NULL) {  // If the queue is empty
         printf("Queue is empty\n");  // Print a message
         return;
     }
-    struct Student* temp = *front;  // Temporarily store the front student
+    struct Student *temp = *front;  // Temporarily store the front student
     *front = (*front)->next;  // Update front to point to the next student
     printf("Dequeued student: %s\n", temp->name);  // Print a message
     free(temp);  // Free the memory of the dequeued student
@@ -50,7 +51,7 @@ void dequeue(struct Student** front) {
 
 // Function: display
 // Description: Displays all students in the queue.
-void display(struct Student* front) {
+void display(struct Student *front) {
     if (front == NULL) {  // If the queue is empty
         printf("Queue is empty\n");  // Print a message
         return;
@@ -58,7 +59,8 @@ void display(struct Student* front) {
     printf("Students in the queue:\n");  // Print a message
     while (front != NULL) {  // While there are students in the queue
         // Print the student's details
-        printf("Name: %s, Address: %s, CURP: %s, Average: %.2f\n", front->name, front->address, front->curp, front->average);
+        printf("Name: %s, Address: %s, CURP: %s, Average: %.2f\n", front->name, front->address, front->curp,
+               front->average);
         front = front->next;  // Move to the next student
     }
 }
@@ -68,6 +70,7 @@ void display(struct Student* front) {
 int validateInput(char name[], char address[], char curp[], float average) {
     // Validate CURP: Ensure no lowercase letters
     for (int i = 0; i < strlen(curp); i++) {
+        // If the current character is a lowercase letter
         if (curp[i] >= 'a' && curp[i] <= 'z') {
             printf("Invalid CURP: Should not contain lowercase letters.\n");
             return 0;  // Invalid input
@@ -80,32 +83,30 @@ int validateInput(char name[], char address[], char curp[], float average) {
         return 0;  // Invalid input
     }
 
-    // Additional validations can be added here as per requirements
-
     return 1;  // Valid input
 }
 
 // Function: readAndEnqueue
 // Description: Reads student details from the user, validates them, and enqueues the student if valid.
-void readAndEnqueue(struct Student** front, struct Student** rear) {
+void readAndEnqueue(struct Student **front, struct Student **rear) {
     char name[50], address[100], curp[20];  // Variables to store student details
     float average;  // Variable to store student average
 
     // Read student details from the user
     printf("Enter student name: ");
-    fgets(name, sizeof(name), stdin);
+    fgets(name, sizeof(name), stdin); // Read the name
     name[strcspn(name, "\n")] = 0;  // Remove the newline character
 
     printf("Enter address: ");
-    fgets(address, sizeof(address), stdin);
+    fgets(address, sizeof(address), stdin); // Read the address
     address[strcspn(address, "\n")] = 0;  // Remove the newline character
 
     printf("Enter CURP: ");
-    fgets(curp, sizeof(curp), stdin);
+    fgets(curp, sizeof(curp), stdin); // Read the CURP
     curp[strcspn(curp, "\n")] = 0;  // Remove the newline character
 
     printf("Enter average: ");
-    scanf("%f", &average);
+    scanf("%f", &average); // Read the average
     getchar();  // Consume the newline character
 
     // Validate input before enqueue
@@ -116,14 +117,13 @@ void readAndEnqueue(struct Student** front, struct Student** rear) {
     }
 }
 
-
 // Function: loadStudentsFromFile
 // Description: Loads students from a file, validates them, and enqueues them if valid.
-void loadStudentsFromFile(struct Student** front, struct Student** rear, const char* filename) {
-    FILE* file = fopen(filename, "r");  // Open the file for reading
+void loadStudentsFromFile(struct Student **front, struct Student **rear, const char *filename) {
+    FILE *file = fopen(filename, "r");  // Open the file for reading
     if (file == NULL) {  // If the file could not be opened
         printf("Could not open file %s for reading.\n", filename);  // Print a message
-        return;
+        return; // Return because the file could not be opened
     }
 
     char name[50], address[100], curp[20];  // Variables to store student details
