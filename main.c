@@ -184,3 +184,30 @@ int main() {
     return 0;  // End the program
 }
 
+// Sample input
+// JohnDoe
+// 123MainSt
+// ABC123456HGF
+// 8.5
+//
+// JaneDoe
+// 456ElmSt
+// XYZ987654LKP
+// 9.2
+//
+// JimBeam
+// 789OakSt
+// LMN654321QWE
+// 7.4
+
+// Sample output
+// Menu:
+// 1. Enqueue student
+// 2. Dequeue student
+// 3. Display queue
+// 4. Exit
+// Enter your choice: 3
+// Students in the queue:
+// Name: JohnDoe, Address: 123MainSt, CURP: ABC123456HGF, Average: 8.50
+// Name: JaneDoe, Address: 456ElmSt, CURP: XYZ987654LKP, Average: 9.20
+// Name: JimBeam, Address: 789OakSt, CURP: LMN654321QWE, Average: 7.40
