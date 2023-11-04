@@ -5,4 +5,7 @@ set(CMAKE_C_STANDARD 11)
 
 add_executable(untitled main.c
         tree.c
-        students.c)
+        students.c
+        "AVL BST.c"
+        Heap.c
+        AdjacencyMatrix.c)
