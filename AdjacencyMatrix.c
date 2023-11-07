@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 #define MAX_VERTICES 50
 #define MAX_NAME_LENGTH 50
@@ -57,6 +58,32 @@ void printTable(Graph *g) {
     }
 }
 
+void DFSUtil(Graph *g, int v, bool visited[]) {
+    // Mark the current node as visited and print it
+    visited[v] = true;
+    printf("%s ", g->names[v]);
+
+    // Recur for all the vertices adjacent to this vertex
+    for (int i = 0; i < g->numVertices; i++) {
+        if (g->adjacencyMatrix[v][i] != 0 && !visited[i]) {
+            DFSUtil(g, i, visited);
+        }
+    }
+}
+
+void DFS(Graph *g, char* startVertex) {
+    // Mark all the vertices as not visited
+    bool visited[MAX_VERTICES] = {false};
+
+    // Call the recursive helper function to print DFS traversal
+    int startIndex = getVertexIndex(g, startVertex);
+    if (startIndex == -1) {
+        printf("Vertex not found\n");
+        return;
+    }
+    DFSUtil(g, startIndex, visited);
+}
+
 int main() {
     Graph g = createGraph();
 
@@ -88,6 +115,10 @@ int main() {
 
     // Display graph as a table
     printTable(&g);
+
+    // Perform DFS starting from the first vertex in the graph
+    printf("DFS traversal starting from vertex %s:\n", g.names[0]);
+    DFS(&g, g.names[0]);
 
     return 0;
 }
